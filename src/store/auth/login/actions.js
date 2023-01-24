@@ -14,7 +14,6 @@ export const loginUser = user => {
     axiosPost(API.LOGIN_USER, user)
       .then(res => {
         if (res.status === 200) {
-          console.log(res)
           
           localStorage.setItem("authUser", res.data)
           dispatch({
@@ -35,7 +34,6 @@ export const loginUser = user => {
         }
       })
       .catch(err => {
-        console.log(err)
         dispatch(
           commonAction.sendSnackAlert(
             "error",

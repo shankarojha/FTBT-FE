@@ -2,6 +2,7 @@ import {
   REGISTER_USER,
   REGISTER_USER_SUCCESSFUL,
   REGISTER_USER_FAILED,
+  RESET_REGISTER_STATE
 } from "./actionTypes"
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
 }
 
 const account = (state = initialState, action) => {
+  
   switch (action.type) {
     case REGISTER_USER:
       state = {
@@ -24,12 +26,11 @@ const account = (state = initialState, action) => {
       state = {
         ...state,
         loading: false,
-        user: action.payload,
+        user: action.payload.status,
         registrationError: null,
       }
       break
     case REGISTER_USER_FAILED:
-      console.log(" fail", action.payload)
       state = {
         ...state,
         user: null,
@@ -37,6 +38,14 @@ const account = (state = initialState, action) => {
         registrationError: action.payload,
       }
       break
+    case RESET_REGISTER_STATE:
+      state={
+        ...state,
+        user:null,
+        loading:false,
+        registrationError:null
+      }
+      
     default:
       state = { ...state }
       break

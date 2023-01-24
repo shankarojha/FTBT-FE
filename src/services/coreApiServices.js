@@ -20,7 +20,6 @@ const attachDefaultContentType = header => {
 // get method
 export const get = async (api, headers = {}) => {
   headers = attachDefaultContentType(headers)
-  console.log(headers)
   let response = await axios
     .get(api, { headers: headers })
     .then(res => ({
@@ -38,7 +37,6 @@ export const get = async (api, headers = {}) => {
 // Post method
 export const post = async (api, body, headers = {}) => {
   headers = attachDefaultContentType(headers)
-  console.log('headers:', headers)
   let response = await axios
     .post(api, body, {
       headers: headers,
@@ -143,7 +141,6 @@ export const mediaUpload = async (url, media, data, token) => {
     accept: "application/json",
     "Content-Type": `multipart/form-data`,
   }
-  console.log(data)
   let formData = new FormData()
   media.forEach(element => {
     formData.append("files", element)

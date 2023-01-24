@@ -2,6 +2,7 @@ import {
   REGISTER_USER,
   REGISTER_USER_SUCCESSFUL,
   REGISTER_USER_FAILED,
+  RESET_REGISTER_STATE
 } from "./actionTypes"
 
 import {API} from 'config/api'
@@ -15,16 +16,15 @@ export const registerUser = user => {
 
     axiosPost(API.REGISTER_USER, user)
       .then(res=>{
-        console.log("res:" , res)
         if(res.status === 201){
           dispatch({
             type: REGISTER_USER,
-            payload: { user },
+            payload: { res },
           })
           dispatch(
             commonAction.sendSnackAlert("success", "Successfully Registered!!")
           )
-          registerUserSuccessful()
+          dispatch(registerUserSuccessful(res))
 
         }else{
           dispatch(
@@ -33,6 +33,7 @@ export const registerUser = user => {
               "Registration failed. Please check the credentials entered."
             )
           )
+          dispatch(registerUserFailed(user.email))
         }
       })
 
@@ -47,8 +48,16 @@ export const registerUserSuccessful = user => {
 }
 
 export const registerUserFailed = user => {
+  console.warn("actions/user : " ,user)
   return {
     type: REGISTER_USER_FAILED,
     payload: user,
+  }
+}
+
+export const resetRegisterState = user =>{
+  return {
+    type: RESET_REGISTER_STATE,
+    payload:null
   }
 }

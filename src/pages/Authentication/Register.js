@@ -9,23 +9,32 @@ import { AvForm, AvField } from "availity-reactstrap-validation"
 import { registerUser, apiError, registerUserFailed } from "../../store/actions"
 
 // Redux
-import { connect } from "react-redux"
+import { connect, useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 
 // import images
 import profile from "assets/images/profile-img.png"
 import logo from "assets/images/KW_Logo_Transparency.png"
+import * as registerActions from 'store/actions'
 
 const Register = props => {
   // handleValidSubmit
+
+  const dispatch = useDispatch()
+
+  let signupResult = useSelector(state=> state.Account.user)
+
   const handleValidSubmit = (event, values) => {
     console.log(values)
-    props.registerUser(values)
+    dispatch(registerActions.registerUser(values))
   }
 
   useEffect(() => {
-    props.apiError("")
-  }, []);
+    if(signupResult === 201){
+      dispatch(registerActions.resetRegisterState())
+      props.history.push("/login")
+    }
+  }, [signupResult]);
 
   return (
     <React.Fragment>
@@ -43,8 +52,7 @@ const Register = props => {
                   <Row>
                     <Col className="col-7">
                       <div className="text-primary p-4">
-                        <h5 className="text-primary">Free Register</h5>
-                        <p>Get your free Skote account now.</p>
+                        <h5 className="text-primary">FT/BT Tool</h5>
                       </div>
                     </Col>
                     <Col className="col-5 align-self-end">
@@ -129,7 +137,7 @@ const Register = props => {
 
                       <div className="mt-4 text-center">
                         <p className="mb-0">
-                          By registering you agree to the Skote{" "}
+                          By registering you agree to the {" "}
                           <Link to="#" className="text-primary">
                             Terms of Use
                           </Link>
@@ -146,10 +154,6 @@ const Register = props => {
                     {" "}
                     Login
                   </Link>{" "}
-                </p>
-                <p>
-                  © {new Date().getFullYear()} Skote. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
                 </p>
               </div>
             </Col>

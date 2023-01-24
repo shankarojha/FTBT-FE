@@ -32,7 +32,6 @@ const Login = props => {
   const loginResult = useSelector(state => state.Login.user)
   // handleValidSubmit
   const handleValidSubmit = (event, values) => {
-    console.log(values)
     let user_auth = {
       email: values.email,
       password: values.password,
@@ -41,7 +40,6 @@ const Login = props => {
   }
 
   useEffect(() => {
-    console.log("loginResult :",loginResult)
     if (loginResult.status === 200) {
       props.history.push("/dashboard")
     }
