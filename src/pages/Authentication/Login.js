@@ -41,7 +41,7 @@ const Login = props => {
 
   useEffect(() => {
     if (loginResult.status === 200) {
-      props.history.push("/dashboard")
+      props.history.push("/projects-list")
     }
   }, [loginResult])
 

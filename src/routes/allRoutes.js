@@ -158,12 +158,13 @@ import PagesFaqs from "../pages/Utility/pages-faqs"
 import PagesPricing from "../pages/Utility/pages-pricing"
 import Pages404 from "../pages/Utility/pages-404"
 import Pages500 from "../pages/Utility/pages-500"
+import SplitScreen from "pages/SplitScreen/SplitScreen"
+import PcHome from "pages/PcHome/PcHome"
 
 //Contacts
 import ContactsGrid from "../pages/Contacts/contacts-grid"
 import ContactsList from "../pages/Contacts/ContactList/contacts-list"
 import ContactsProfile from "../pages/Contacts/ContactsProfile/contacts-profile"
-import SplitScreen from "pages/SplitScreen/SplitScreen"
 
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -303,9 +304,10 @@ const userRoutes = [
   { path: "/pages-faqs", component: PagesFaqs },
   { path: "/pages-pricing", component: PagesPricing },
   { path:"/splitscreen",component:SplitScreen},
+  { path:"/pcHome",component:PcHome},
 
   // this route should be at the end of all other routes
-  { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
+  { path: "/", exact: true, component: () => <Redirect to="/pcHome" /> },
 ]
 
 const authRoutes = [

@@ -19,3 +19,32 @@
     visibility: hidden;
 
 }
+.splitText{
+    border: none;
+    width: 100%;
+}
+
+tr {
+    background-color: #ffffff;
+  }
+
+  table{
+    width: 100%;
+  }
+
+  // td{
+  //   text-align: left;
+  //   width: 50%;
+  //   max-width: 50px;
+  //   word-wrap: break-word;
+      
+  // }
+
+  td .uneditable{
+    pointer-events: none;
+    background-color: #821111;
+  }
+
+.editorWrapper{
+    max-width: 35vw;
+}

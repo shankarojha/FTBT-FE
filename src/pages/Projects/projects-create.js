@@ -14,6 +14,13 @@ import {
   InputGroup,
   Label,
   Row,
+  CardHeader,
+  CardText,
+  CardFooter,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  Table 
 } from "reactstrap"
 import FileUpload from "components/Common/FileUpload"
 import { useDispatch, useSelector } from "react-redux"
@@ -33,63 +40,50 @@ import * as addproductAction from "store/actions"
 import { sendSnackAlert } from "store/actions"
 import * as commonAction from "store/actions"
 import * as projectAction from "store/actions"
+import { API } from "config/api"
+import { axiosPost, axiosGet } from "services/apiServices"
+import { uniq } from "lodash"
+
+
 const ProjectsCreate = props => {
   const dispatch = useDispatch()
   const [dueDate, setdueDate] = useState(new Date())
   const [selectedFiles, setselectedFiles] = useState([])
   const [selectedImages, setselectedImages] = useState([])
   const [selectedDatasheet, setselectedDatasheet] = useState([])
+  const [languageList, setLanguageList] = useState([])
+  const [serviceList, setServiceList] = useState([])
+  const [serviceFiles, setServiceFiles]= useState([])
+  const [serviceKey,setServiceKey]= useState(0)
 
   const projectCreated = useSelector(state => state.projects.projectStatus)
   const [onChangeValues, setonChangeValues] = useState({
-    languages_source: [
-      { label: "English", value: "english" },
-      { label: "Telugu", value: "telugu" },
-      { label: "Hindi", value: "hindi" },
-      { label: "Marati", value: "marati" },
-      { label: "Kannada", value: "kannada" },
-      { label: "Tamil", value: "tamil" },
-      { abel: "Gujarati", value: "gujarati" },
-    ],
-    languages_target: [
-      { label: "English", value: "english" },
-      { label: "Telugu", value: "telugu" },
-      { label: "Hindi", value: "hindi" },
-      { label: "Marati", value: "marati" },
-      { label: "Kannada", value: "kannada" },
-      { label: "Tamil", value: "tamil" },
-      { abel: "Gujarati", value: "gujarati" },
-    ],
-    projectDomain: [
-      { label: "Healthcare", value: "healthcare" },
-      { label: "IT/ITES", value: "it/ites" },
-    ],
-
-    projectTypeValue: [
-      { label: "Translation", value: "translation" },
-      { label: "Transliteration", value: "transliteration" },
-    ],
-    clientName: "",
-    contactName: "",
-    projectType: "",
     projectName: "",
-    projectDesc: "",
-    selProjectDomain: {},
     selSourceLangauge: {},
-    selTargetLanguage: [],
-    selProjectType: "",
+    selTargetLanguage: {},
     images: [],
     dropDownValues: { projectDomain: [] },
     tmChecked: false,
     glossaryChecked: false,
+    selService:{},
+    selFileName:""
   })
 
+
+  const [openModal, setOpenModal] = useState(false);
+  const [focusAfterClose, setFocusAfterClose] = useState(true);
+
+  const toggleModal = () => setOpenModal(!openModal);
+  const handleSelectChange = ({ target: { value } }) => {
+    setFocusAfterClose(JSON.parse(value));
+  };
+
   const handleonChangeValues = key => event => {
-    console.log([key])
+    console.log("key",[key])
 
     if (key.includes("sel")) {
-      console.log([key])
-      console.log(event)
+     // console.log([key])
+      console.log("event:",event)
       setonChangeValues(prevState => ({
         ...prevState,
         [key]: event,
@@ -118,6 +112,38 @@ const ProjectsCreate = props => {
     //  }))
   }
 
+  const removeFromService = (data) =>{
+    console.log("data:", data)
+    
+    // let duplicateArray = serviceFiles
+    // duplicateArray.splice(data.serviceKey,1)
+    setServiceFiles(prevState=> prevState.filter(item=>item.serviceKey!==data.serviceKey))
+    //setServiceKey(prevState=>serviceFiles[serviceFiles.length-1].serviceKey+1)
+  }
+
+  const addServiceFile = () =>{
+    let serviceObj = {
+      serviceKey:serviceKey,
+      fileName: onChangeValues.fileName,
+      targetLanguage:onChangeValues.selTargetLanguage.value,
+      sourceLanguage:onChangeValues.selSourceLangauge.value,
+      serviceType:onChangeValues.selService.value,
+      file:onChangeValues.images
+    }
+
+    setServiceFiles(prevState=>[...prevState, serviceObj])
+    setServiceKey(prevState=>prevState+1)
+    
+  }
+
+  /**Testing */
+
+  useEffect(()=>{
+    console.log(serviceFiles)
+  },[serviceFiles,removeFromService])
+
+  /**Ends */
+
   const removeSelectedImages = file => {
     console.log("data>removeSelectedImages", file)
     const files = selectedImages
@@ -138,6 +164,47 @@ const ProjectsCreate = props => {
       window.location.reload()
     }
   }, [projectCreated])
+
+  useEffect(()=>{
+    getLanguages()
+    getServices()
+  },[])
+
+  const getServices = async()=>{
+    try{
+      const response = await axiosGet(API.SERVICES_FETCH)
+      console.log("services:",response)
+      const services = await response.data.map(el=>{
+        return el.servicesName
+      })
+      let uniqueServices = await [...new Set(services)]
+      
+      uniqueServices = await uniqueServices.map(el=>{
+        return {value:el, label:el}
+      })
+      console.log(uniqueServices)
+      setServiceList(uniqueServices)
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  const getLanguages= async()=>{
+    try{
+      const response = await axiosGet(API.LANGUAGES_FETCH)
+      const languages = await response.data.map((el)=>{
+        return {value:el.languageName,label:el.languageName}
+      })
+      await setLanguageList(languages)
+      console.log(languageList)
+    }catch(error){
+      console.log(error)
+    }finally{
+      console.log("here")
+      console.log(languageList)
+    }
+  }
+
   const handleAcceptedImages = (images, res) => {
     res.data.map((image, index) => {
       var imageUrl = BaseURL + "?url=" + encodeURIComponent(image.file_url)
@@ -157,6 +224,7 @@ const ProjectsCreate = props => {
     setselectedImages(res.data)
   }
   const uploadImages = images => {
+    console.log("iamges",images)
     console.log(onChangeValues.projectName)
     if (onChangeValues.projectName === "") {
       dispatch(
@@ -261,60 +329,7 @@ const ProjectsCreate = props => {
                 <CardBody>
                   <CardTitle className="mb-4">Create New Project</CardTitle>
                   <Form onSubmit={handleFormSubmit}>
-                    <FormGroup className="mb-4" row>
-                      <Label
-                        htmlFor="clientname"
-                        className="col-form-label col-lg-2"
-                      >
-                        Client Name
-                      </Label>
-                      <Col lg="10">
-                        <Input
-                          required
-                          id="clientname"
-                          name="clientname"
-                          type="text"
-                          className="form-control"
-                          value={onChangeValues.clientName.value}
-                          placeholder="Enter client Name..."
-                          onChange={handleonChangeValues("clientName")}
-                        />
-                      </Col>
-                    </FormGroup>
-                    <FormGroup className="mb-4" row>
-                      <Label
-                        htmlFor="contactname"
-                        className="col-form-label col-lg-2"
-                      >
-                        Contact Name
-                      </Label>
-                      <Col lg="10">
-                        <Input
-                          required
-                          id="contactname"
-                          name="contactname"
-                          type="text"
-                          value={onChangeValues.contactName.value}
-                          className="form-control"
-                          placeholder="Enter contact Name..."
-                          onChange={handleonChangeValues("contactName")}
-                        />
-                      </Col>
-                    </FormGroup>
-                    <FormGroup className="mb-4" row>
-                      <Label
-                        htmlFor="projecttype"
-                        className="col-form-label col-lg-2"
-                      >
-                        Project Type
-                      </Label>
-                      <Col lg="10">
-                        <Select
-                          options={onChangeValues.projectTypeValue}
-                          onChange={handleonChangeValues("selProjectType")}
-                        />
-                      </Col>
-                    </FormGroup>
+                
                     <FormGroup className="mb-4" row>
                       <Label
                         htmlFor="projectname"
@@ -324,17 +339,7 @@ const ProjectsCreate = props => {
                       </Label>
                       <Col lg="10">
                         <Row>
-                          <Col md={3} className="">
-                            <Input
-                              required
-                              id="pid"
-                              name="pid"
-                              type="text"
-                              className="form-control"
-                              disabled
-                            />
-                          </Col>
-                          <Col md={9} className="">
+                          <Col md={12} className="">
                             <Input
                               required
                               id="projectname"
@@ -347,25 +352,6 @@ const ProjectsCreate = props => {
                             />
                           </Col>
                         </Row>
-                      </Col>
-                    </FormGroup>
-                    <FormGroup className="mb-4" row>
-                      <Label
-                        htmlFor="projectdesc"
-                        className="col-form-label col-lg-2"
-                      >
-                        Project Description
-                      </Label>
-                      <Col lg="10">
-                        <textarea
-                          className="form-control"
-                          required
-                          id="projectdesc"
-                          value={onChangeValues.projectDesc.value}
-                          rows="3"
-                          placeholder="Enter Project Description..."
-                          onChange={handleonChangeValues("projectDesc")}
-                        />
                       </Col>
                     </FormGroup>
 
@@ -383,21 +369,48 @@ const ProjectsCreate = props => {
                       </Col>
                     </FormGroup>
 
-                    <FormGroup className="mb-4" row>
+                    {/* Here 1*/}
+
+                    {serviceFiles.length>0 && <Table className="text-center">
+                    <thead>
+                      <tr>
+                        <th>File Name</th>
+                        <th>Source Language</th>
+                        <th>Target Language</th>
+                        <th>Service</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {serviceFiles.map((el)=>(<tr key={el.serviceKey}>
+                        <td>{el.fileName}</td>
+                        <td>{el.sourceLanguage}</td>
+                        <td>{el.targetLanguage}</td>
+                        <td>{el.serviceType}</td>
+                        <td><Button type="button" color="danger" onClick={()=>removeFromService(el)}><i className="bx bxs-trash"></i> </Button></td>
+                      </tr>))}
+                    </tbody>
+                    </Table>}
+
+                      <Card>
+                        <CardHeader>
+                          Add files
+                        </CardHeader>
+                        <CardBody>
+                        <FormGroup className="mb-4" row>
                       <label
-                        htmlFor="projectdomain"
+                        htmlFor="fileName"
                         className="col-form-label col-lg-2"
                       >
-                        Project Domain
+                        File Name
                       </label>
                       <Col lg="10">
-                        <Select
-                          options={onChangeValues.projectDomain}
-                          onChange={handleonChangeValues("selProjectDomain")}
-                        />
+                        <Input type="text"
+                          onChange={handleonChangeValues("fileName")}
+                        ></Input>
                       </Col>
                     </FormGroup>
-                    <FormGroup className="mb-4" row>
+                        <FormGroup className="mb-4" row>
                       <label
                         htmlFor="sourcelanguage"
                         className="col-form-label col-lg-2"
@@ -406,7 +419,7 @@ const ProjectsCreate = props => {
                       </label>
                       <Col lg="10">
                         <Select
-                          options={onChangeValues.languages_source}
+                          options={languageList}
                           onChange={handleonChangeValues("selSourceLangauge")}
                         ></Select>
                       </Col>
@@ -420,10 +433,27 @@ const ProjectsCreate = props => {
                       </label>
                       <Col lg="10">
                         <Select
-                          options={onChangeValues.languages_target}
+                          options={languageList}
                           required
                           onChange={handleonChangeValues("selTargetLanguage")}
-                          isMulti
+                          
+                        ></Select>
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup className="mb-4" row>
+                      <label
+                        htmlFor="targetService"
+                        className="col-form-label col-lg-2"
+                      >
+                        Service
+                      </label>
+                      <Col lg="10">
+                        <Select
+                          options={serviceList}
+                          required
+                          onChange={handleonChangeValues("selService")}
+                          
                         ></Select>
                       </Col>
                     </FormGroup>
@@ -432,8 +462,13 @@ const ProjectsCreate = props => {
                       <Label className="col-form-label col-lg-2">
                         Project Files
                       </Label>
-                      <Col lg="10">
-                        <FileUpload
+                      <Button type ="button" color="primary" onClick={toggleModal}>
+                        Upload File
+                      </Button>
+                      <Modal returnFocusAfterClose={focusAfterClose} isOpen={openModal}>
+                        <ModalBody>
+                        {openModal && <FileUpload
+                          onChange={console.log("Called On Change")}
                           selectedFiles={selectedImages}
                           fileType={[".doc", ".docx"]}
                           uploadFiles={images => uploadImages(images)}
@@ -442,226 +477,28 @@ const ProjectsCreate = props => {
                           }
                           multiple={true}
                           required
-                        />
+                        />}
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button type ="button" color="primary" onClick={toggleModal}>
+                            Close
+                          </Button>
+                        </ModalFooter>
+                      </Modal>
+                      <Col lg="10">
+                        
                       </Col>
                     </FormGroup>
+                        </CardBody>
+                        <CardFooter >
+                          <Button type="button" color="primary" onClick={addServiceFile}>Add</Button>
+                        </CardFooter>
+                      </Card>
+                    
 
-                    <FormGroup row>
-                      <Label className="col-form-label col-lg-2">
-                        Translation Management
-                      </Label>
-                      <Row>
-                        <Col md="4">
-                          <Label
-                            htmlFor="defaultcheck1"
-                            className="col-form-label"
-                          >
-                            TM
-                          </Label>
-                        </Col>
-                        <Col md="2">
-                          <div
-                            className="custom-control custom-checkbox mb-3"
-                            dir="ltr"
-                            style={{ marginTop: 10 }}
-                          >
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id="customSwitchtm"
-                              value={onChangeValues.tmChecked}
-                              name="tm"
-                              onChange={handleonChangeValues("tmChecked")}
-                            />
-                            <label
-                              className="custom-control-label"
-                              htmlFor="customSwitchtm"
-                            ></label>
-                          </div>
-                        </Col>
-                        <Col md="4">
-                          <Label
-                            htmlFor="defaultcheck1"
-                            className="col-form-label"
-                          >
-                            Glossary
-                          </Label>
-                        </Col>
-                        <Col md="2">
-                          <div
-                            className="custom-control custom-checkbox mb-3"
-                            dir="ltr"
-                            style={{ marginTop: 10 }}
-                          >
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id="customSwitchsizeglossary"
-                              name="glossary"
-                              value={onChangeValues.glossaryChecked}
-                              onChange={handleonChangeValues("glossaryChecked")}
-                            />
-                            <label
-                              className="custom-control-label"
-                              htmlFor="customSwitchsizeglossary"
-                            ></label>
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                    <Row>
-                      {onChangeValues.tmChecked ? (
-                        <Row>
-                          <FormGroup className="mb-4" row>
-                            <Label className="col-form-label col-lg-2">
-                              TM Files
-                            </Label>
-                            <Col lg="10">
-                              <Dropzone
-                                onDrop={acceptedFiles => {
-                                  handleAcceptedFiles(acceptedFiles)
-                                }}
-                              >
-                                {({ getRootProps, getInputProps }) => (
-                                  <div className="dropzone">
-                                    <div
-                                      className="dz-message needsclick"
-                                      {...getRootProps()}
-                                    >
-                                      <input {...getInputProps()} />
-                                      <div className="dz-message needsclick">
-                                        <div className="mb-3">
-                                          <i className="display-4 text-muted bx bxs-cloud-upload" />
-                                        </div>
-                                        <h4>
-                                          Drop files here or click to upload.
-                                        </h4>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-                              </Dropzone>
-                              <div
-                                className="dropzone-previews mt-3"
-                                id="file-previews"
-                                required
-                              >
-                                {selectedFiles.map((f, i) => {
-                                  return (
-                                    <Card
-                                      className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-                                      key={i + "-file"}
-                                    >
-                                      <div className="p-2">
-                                        <Row className="align-items-center">
-                                          <Col className="col-auto">
-                                            <img
-                                              data-dz-thumbnail=""
-                                              height="80"
-                                              className="avatar-sm rounded bg-light"
-                                              alt={f.name}
-                                              src={f.preview}
-                                            />
-                                          </Col>
-                                          <Col>
-                                            <Link
-                                              to="#"
-                                              className="text-muted font-weight-bold"
-                                            >
-                                              {f.name}
-                                            </Link>
-                                            <p className="mb-0">
-                                              <strong>{f.formattedSize}</strong>
-                                            </p>
-                                          </Col>
-                                        </Row>
-                                      </div>
-                                    </Card>
-                                  )
-                                })}
-                              </div>
-                            </Col>
-                          </FormGroup>
-                        </Row>
-                      ) : null}
-
-                      {onChangeValues.glossaryChecked ? (
-                        <Row>
-                          <FormGroup className="mb-4" row>
-                            <Label className="col-form-label col-lg-2">
-                              Glossary Files
-                            </Label>
-                            <Col lg="10">
-                              <Dropzone
-                                onDrop={acceptedFiles => {
-                                  handleAcceptedFiles(acceptedFiles)
-                                }}
-                              >
-                                {({ getRootProps, getInputProps }) => (
-                                  <div className="dropzone">
-                                    <div
-                                      className="dz-message needsclick"
-                                      {...getRootProps()}
-                                    >
-                                      <input {...getInputProps()} />
-                                      <div className="dz-message needsclick">
-                                        <div className="mb-3">
-                                          <i className="display-4 text-muted bx bxs-cloud-upload" />
-                                        </div>
-                                        <h4>
-                                          Drop files here or click to upload.
-                                        </h4>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-                              </Dropzone>
-                              <div
-                                className="dropzone-previews mt-3"
-                                id="file-previews"
-                              >
-                                {selectedFiles.map((f, i) => {
-                                  return (
-                                    <Card
-                                      className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-                                      key={i + "-file"}
-                                    >
-                                      <div className="p-2">
-                                        <Row className="align-items-center">
-                                          <Col className="col-auto">
-                                            <img
-                                              data-dz-thumbnail=""
-                                              height="80"
-                                              className="avatar-sm rounded bg-light"
-                                              alt={f.name}
-                                              src={f.preview}
-                                            />
-                                          </Col>
-                                          <Col>
-                                            <Link
-                                              to="#"
-                                              className="text-muted font-weight-bold"
-                                            >
-                                              {f.name}
-                                            </Link>
-                                            <p className="mb-0">
-                                              <strong>{f.formattedSize}</strong>
-                                            </p>
-                                          </Col>
-                                        </Row>
-                                      </div>
-                                    </Card>
-                                  )
-                                })}
-                              </div>
-                            </Col>
-                          </FormGroup>
-                        </Row>
-                      ) : null}
-                    </Row>
-
-                    <Row className="justify-content-end">
-                      <Col lg="10">
+                    {/*Till here*/}
+                    <Row className="text-center">
+                      <Col lg="12">
                         <Button type="submit" color="primary">
                           Create Project
                         </Button>

@@ -29,7 +29,7 @@ const Login = () => {
                     <Col className="col-7">
                       <div className="text-primary p-4">
                         <h5 className="text-primary">Welcome Back !</h5>
-                        <p>Sign in to continue to Skote.</p>
+                        <p>Sign in to continue to FTBT.</p>
                       </div>
                     </Col>
                     <Col className="col-5 align-self-end">

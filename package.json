@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^36.0.0",
+    "@ckeditor/ckeditor5-react": "^5.0.6",
     "@fullcalendar/bootstrap": "^5.4.0",
     "@fullcalendar/core": "^5.4.0",
     "@fullcalendar/daygrid": "^5.4.0",
@@ -18,12 +20,14 @@
     "availity-reactstrap-validation": "^2.7.0",
     "axios": "^0.21.0",
     "axios-mock-adapter": "^1.19.0",
+    "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.5.3",
     "chart.js": "^2.9.4",
     "chartist": "^0.11.4",
     "classnames": "^2.2.6",
     "dotenv": "^8.2.0",
     "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
     "echarts": "^4.9.0",
     "echarts-for-react": "^2.0.16",
     "firebase": "^8.1.1",
@@ -95,7 +99,8 @@
     "redux-thunk": "^2.3.0",
     "simplebar-react": "^2.3.0",
     "styled-components": "^5.2.1",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "set PORT=4200 && react-scripts start",
