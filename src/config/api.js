@@ -6,7 +6,7 @@ const erpPath = "http://nerps.knowledgew.com:4500/api"
 
 export const API = {
   // MEDIA UPLOAD
-  MEDIA_UPLOAD: `${proxyURL}/fileupload`,
+  MEDIA_UPLOAD: `${BaseURL}/users/fileUpload`,
 
   //Gateway Authentication
   LOGIN_USERS_GATEWAY: `${gatewayURL}/users`,

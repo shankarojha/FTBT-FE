@@ -11,6 +11,7 @@ export const commonMediaUpload = (media, data, handleAcceptedFiles) => {
     const token = "Brearer " + (await localStorage.getItem("authUser"))
     axiosMediaUpload(API.MEDIA_UPLOAD, media, data, token)
       .then(res => {
+        console.log(" from common action:", res)
         if ((res.status = 200)) {
           handleAcceptedFiles(media, res)
         }

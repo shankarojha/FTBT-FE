@@ -15,5 +15,6 @@ import rootReducer from "./reducers"
 // )  
 // sagaMiddleware.run(rootSaga)
 const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
+console.log("store:",store)
 
 export default store

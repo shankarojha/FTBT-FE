@@ -55,6 +55,7 @@ const ProjectsCreate = props => {
   const [serviceList, setServiceList] = useState([])
   const [serviceFiles, setServiceFiles]= useState([])
   const [serviceKey,setServiceKey]= useState(0)
+  const [fileName,setFileName]= useState("")
 
   const projectCreated = useSelector(state => state.projects.projectStatus)
   const [onChangeValues, setonChangeValues] = useState({
@@ -66,7 +67,8 @@ const ProjectsCreate = props => {
     tmChecked: false,
     glossaryChecked: false,
     selService:{},
-    selFileName:""
+    selFileName:"",
+    file:""
   })
 
 
@@ -82,7 +84,6 @@ const ProjectsCreate = props => {
     console.log("key",[key])
 
     if (key.includes("sel")) {
-     // console.log([key])
       console.log("event:",event)
       setonChangeValues(prevState => ({
         ...prevState,
@@ -104,31 +105,22 @@ const ProjectsCreate = props => {
         [key]: event.target.checked,
       }))
     }
-
-    // if(key.includes("glossaryChecked"))
-    //   setonChangeValues(prevState => ({
-    //   ...prevState,
-    //   [key]:event.target.checked
-    //  }))
   }
 
   const removeFromService = (data) =>{
     console.log("data:", data)
     
-    // let duplicateArray = serviceFiles
-    // duplicateArray.splice(data.serviceKey,1)
     setServiceFiles(prevState=> prevState.filter(item=>item.serviceKey!==data.serviceKey))
-    //setServiceKey(prevState=>serviceFiles[serviceFiles.length-1].serviceKey+1)
   }
 
   const addServiceFile = () =>{
     let serviceObj = {
       serviceKey:serviceKey,
-      fileName: onChangeValues.fileName,
+      fileName: onChangeValues.selFileName,
       targetLanguage:onChangeValues.selTargetLanguage.value,
       sourceLanguage:onChangeValues.selSourceLangauge.value,
       serviceType:onChangeValues.selService.value,
-      file:onChangeValues.images
+      file:onChangeValues.file
     }
 
     setServiceFiles(prevState=>[...prevState, serviceObj])
@@ -206,26 +198,29 @@ const ProjectsCreate = props => {
   }
 
   const handleAcceptedImages = (images, res) => {
-    res.data.map((image, index) => {
-      var imageUrl = BaseURL + "?url=" + encodeURIComponent(image.file_url)
-      Object.assign(image, {
+    console.log("res handle:", res)
+      var imageUrl = BaseURL + "?url=" + encodeURIComponent(images.file_url)
+      Object.assign(images, {
         id: index,
-        preview: docImage,
-        formattedSize: formatBytes(image.file_size),
-        name: image.file_name,
+        preview: docimage,
+        formattedSize: formatBytes(images.file_size),
+        name: images.file_name,
       })
-    })
+
+      setFileName(res.data.filename)
+    
 
     setonChangeValues({
       ...onChangeValues,
-      images: res.data,
+      file: res.data.filename,
+      selFileName:res.data.originalname
     })
 
     setselectedImages(res.data)
   }
   const uploadImages = images => {
-    console.log("iamges",images)
-    console.log(onChangeValues.projectName)
+    //console.log("iamges",images)
+    //console.log(onChangeValues.projectName)
     if (onChangeValues.projectName === "") {
       dispatch(
         commonAction.sendSnackAlert("error", "Please fill the Project Name")
@@ -470,7 +465,7 @@ const ProjectsCreate = props => {
                         {openModal && <FileUpload
                           onChange={console.log("Called On Change")}
                           selectedFiles={selectedImages}
-                          fileType={[".doc", ".docx"]}
+                          //fileType={[".doc", ".docx"]}
                           uploadFiles={images => uploadImages(images)}
                           removeSelectedFiles={file =>
                             removeSelectedImages(file)

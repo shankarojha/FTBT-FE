@@ -20,7 +20,7 @@ function FileUpload(props) {
         onDrop={acceptedFiles => {
           uploadFiles(acceptedFiles)
         }}
-        accept={fileType}
+        //accept={fileType}
       >
         {({ getRootProps, getInputProps }) => (
           <div className="dropzone">
@@ -96,7 +96,7 @@ FileUpload.propTypes = {
 
 FileUpload.defaultProps = {
   selectedFiles: [],
-  fileType: ["image/png", "image/jpeg", "image/jpg"],
+  //fileType: ["image/png", "image/jpeg", "image/jpg"],
   dropFilesText: "",
   multiple: true,
 }

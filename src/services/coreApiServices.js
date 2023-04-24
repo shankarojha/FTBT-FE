@@ -1,7 +1,7 @@
 import axios from "axios"
 import qs from "qs"
 // import * as authAction from "../actions/authAction";
-// import store from "../store";
+import store from "../store";
 
 const config = {
   headers: {
@@ -152,7 +152,13 @@ export const mediaUpload = async (url, media, data, token) => {
   //   console.log("data>formdata", key[0] + ", " + JSON.stringify(key[1]))
   // }
 
-  let result = await axios.post(url, formData, { headers })
+  let result = await axios.post(url, formData, { headers, 
+    // onUploadProgress:(data)=>{
+    //   console.log("data from coreApiServices:",data)
+    //   store.dispatch(data)
+    // }
+   })
+   console.log("result:",result)
   // if (result.status_code && result.status_code === 403) {
   //   store.dispatch(authAction.sessionLogout());
   // }
