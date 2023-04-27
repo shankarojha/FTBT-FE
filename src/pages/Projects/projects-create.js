@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import Dropzone from "react-dropzone"
+import './projects-create.scss'
 import {
   Button,
   Card,
@@ -56,6 +56,7 @@ const ProjectsCreate = props => {
   const [serviceFiles, setServiceFiles]= useState([])
   const [serviceKey,setServiceKey]= useState(0)
   const [fileName,setFileName]= useState("")
+  const [isUploading,setIsUploading] = useState(false)
 
   const projectCreated = useSelector(state => state.projects.projectStatus)
   const [onChangeValues, setonChangeValues] = useState({
@@ -68,7 +69,7 @@ const ProjectsCreate = props => {
     glossaryChecked: false,
     selService:{},
     selFileName:"",
-    file:""
+    selOrgFile:""
   })
 
 
@@ -116,11 +117,11 @@ const ProjectsCreate = props => {
   const addServiceFile = () =>{
     let serviceObj = {
       serviceKey:serviceKey,
-      fileName: onChangeValues.selFileName,
       targetLanguage:onChangeValues.selTargetLanguage.value,
       sourceLanguage:onChangeValues.selSourceLangauge.value,
       serviceType:onChangeValues.selService.value,
-      file:onChangeValues.file
+      filename:onChangeValues.selOrgFile,
+      orgFilename:onChangeValues.selFileName
     }
 
     setServiceFiles(prevState=>[...prevState, serviceObj])
@@ -165,16 +166,14 @@ const ProjectsCreate = props => {
   const getServices = async()=>{
     try{
       const response = await axiosGet(API.SERVICES_FETCH)
-      console.log("services:",response)
       const services = await response.data.map(el=>{
         return el.servicesName
       })
-      let uniqueServices = await [...new Set(services)]
+      let uniqueServices = await uniq(services)
       
       uniqueServices = await uniqueServices.map(el=>{
         return {value:el, label:el}
       })
-      console.log(uniqueServices)
       setServiceList(uniqueServices)
     }catch(error){
       console.log(error)
@@ -198,23 +197,23 @@ const ProjectsCreate = props => {
   }
 
   const handleAcceptedImages = (images, res) => {
-    console.log("res handle:", res)
-      var imageUrl = BaseURL + "?url=" + encodeURIComponent(images.file_url)
-      Object.assign(images, {
-        id: index,
-        preview: docimage,
-        formattedSize: formatBytes(images.file_size),
-        name: images.file_name,
-      })
+    console.log("res handle:", res)      
 
       setFileName(res.data.filename)
     
 
     setonChangeValues({
       ...onChangeValues,
-      file: res.data.filename,
+      selOrgFile: res.data.filename,
       selFileName:res.data.originalname
     })
+
+    if(res){
+      setIsUploading(false)
+      dispatch(
+        commonAction.sendSnackAlert("success", "Upload Complete")
+      )
+    }
 
     setselectedImages(res.data)
   }
@@ -226,6 +225,7 @@ const ProjectsCreate = props => {
         commonAction.sendSnackAlert("error", "Please fill the Project Name")
       )
     } else {
+      setIsUploading(true)
       console.log(onChangeValues)
       dispatch(
         addproductAction.commonMediaUpload(
@@ -376,9 +376,9 @@ const ProjectsCreate = props => {
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="serviceTable">
                       {serviceFiles.map((el)=>(<tr key={el.serviceKey}>
-                        <td>{el.fileName}</td>
+                        <td>{el.orgFilename}</td>
                         <td>{el.sourceLanguage}</td>
                         <td>{el.targetLanguage}</td>
                         <td>{el.serviceType}</td>
@@ -462,7 +462,7 @@ const ProjectsCreate = props => {
                       </Button>
                       <Modal returnFocusAfterClose={focusAfterClose} isOpen={openModal}>
                         <ModalBody>
-                        {openModal && <FileUpload
+                        {!isUploading && openModal && <FileUpload
                           onChange={console.log("Called On Change")}
                           selectedFiles={selectedImages}
                           //fileType={[".doc", ".docx"]}
@@ -473,12 +473,16 @@ const ProjectsCreate = props => {
                           multiple={true}
                           required
                         />}
+                        {isUploading && <div className="text-center m-4 d-flex justify-content-center align-items-center">
+                        <div className="loader"></div>
+                        </div>}
                         </ModalBody>
-                        <ModalFooter>
+                        {<ModalFooter>
                           <Button type ="button" color="primary" onClick={toggleModal}>
                             Close
                           </Button>
-                        </ModalFooter>
+                        </ModalFooter>}
+                        
                       </Modal>
                       <Col lg="10">
                         

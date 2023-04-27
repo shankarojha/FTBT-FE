@@ -11,7 +11,7 @@ function FileUpload(props) {
     selectedFiles,
     fileType,
     dropFilesText,
-    multiple,
+    multiple
   } = props
   return (
     <React.Fragment>
@@ -36,7 +36,7 @@ function FileUpload(props) {
           </div>
         )}
       </Dropzone>
-      <div className="dropzone-previews mt-3" id="file-previews">
+      {/* <div className="dropzone-previews mt-3" id="file-previews">
         {selectedFiles.map((file, index) => {
           return (
             <Card
@@ -80,7 +80,7 @@ function FileUpload(props) {
             </Card>
           )
         })}
-      </div>
+      </div> */}
     </React.Fragment>
   )
 }
@@ -88,7 +88,7 @@ function FileUpload(props) {
 FileUpload.propTypes = {
   uploadFiles: PropTypes.func,
   removeSelectedFiles: PropTypes.func,
-  selectedFiles: PropTypes.array,
+  //selectedFiles: PropTypes.array,
   fileType: PropTypes.array,
   dropFilesText: PropTypes.string,
   multiple: PropTypes.bool,

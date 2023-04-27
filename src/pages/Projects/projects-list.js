@@ -27,14 +27,14 @@ import companies from "assets/images/companies"
 import { getProjects } from "store/actions"
 
 const ProjectsList = props => {
-  const { projects, onGetProjects } = props
-  const projectList = useSelector(state => state.projects.projects)
+  //const { projects, onGetProjects } = props
+  //const projectList = useSelector(state => state.projects.projects)
   const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getProjects())
-  }, [])
+  // useEffect(() => {
+  //   dispatch(getProjects())
+  // }, [])
 
-  console.log(projectList)
+  //console.log(projectList)
 
   return (
     <React.Fragment>
@@ -63,7 +63,8 @@ const ProjectsList = props => {
                       </tr>
                     </thead>
                     <tbody>
-                      {map(projectList, (project, index) => (
+                      <tr><td>Hello</td></tr>
+                      {/* {map(projectList, (project, index) => (
                         <tr key={index}>
                           <td>
                             <TMSAvatar
@@ -89,7 +90,7 @@ const ProjectsList = props => {
                           <td width={80}>{project.projectStatus}</td>
                           <td width={200}></td>
                         </tr>
-                      ))}
+                      ))} */}
                     </tbody>
                   </Table>
                 </div>

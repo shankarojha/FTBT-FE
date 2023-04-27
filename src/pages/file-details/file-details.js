@@ -1,8 +1,20 @@
-import React, { Component } from "react"
-import { Row, Col, CardBody, Card, Alert, Container, Table } from "reactstrap"
+import React, { Component, useState, useEffect } from "react"
+import { Row, Col, CardBody, Card, Alert, Container, Table, Button } from "reactstrap"
 import { Link } from "react-router-dom"
 
-const pcHome = props => {
+const fileDetails = props => {
+
+  const [services,setServices] = useState([])
+  const onClickFunction = (arr) =>{
+    setServices(prevState=>({
+      arr
+    }))
+  }
+
+  useEffect(()=>{
+    console.log(services)
+  },[onClickFunction])
+
   return (
     <>
       <div className="page-content">
@@ -35,7 +47,7 @@ const pcHome = props => {
                     <th scope="row">3</th>
                     <td>Larry</td>
                     <td>the Bird</td>
-                    <td>@twitter</td>
+                    <td><Button onClick={()=>{onClickFunction(["hello"])}}>Click</Button></td>
                   </tr>
                 </tbody>
               </Table>
@@ -47,4 +59,4 @@ const pcHome = props => {
   )
 }
 
-export default pcHome
+export default fileDetails
