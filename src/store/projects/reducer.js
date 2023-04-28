@@ -4,6 +4,7 @@ import {
   GET_PROJECTS_SUCCESS,
   GET_PROJECT_DETAIL_FAIL,
   GET_PROJECT_DETAIL_SUCCESS,
+  GET_FILE_DETAILS_SUCCESS
 } from "./actionTypes"
 
 const INIT_STATE = {
@@ -42,6 +43,12 @@ const projects = (state = INIT_STATE, action) => {
       return {
         ...state,
         projectStatus: action.payload,
+      }
+
+    case GET_FILE_DETAILS_SUCCESS:
+      return{
+        ...state,
+        fileDetails:action.payload
       }
 
     default:

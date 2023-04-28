@@ -226,6 +226,7 @@ const userRoutes = [
   { path: "/projects-overview", component: ProjectsOverview },
   { path: "/projects-overview/:id", component: ProjectsOverview },
   { path: "/projects-create", component: ProjectsCreate },
+  { path:"/file-details/:projectId",component:fileDetails},
 
   //Blog
   { path: "/blog-list", component: BlogList },
@@ -304,7 +305,7 @@ const userRoutes = [
   { path: "/pages-faqs", component: PagesFaqs },
   { path: "/pages-pricing", component: PagesPricing },
   { path:"/splitscreen",component:SplitScreen},
-  { path:"/file-details",component:fileDetails},
+  
 
   // this route should be at the end of all other routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },

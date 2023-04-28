@@ -6,6 +6,7 @@ import {
   GET_PROJECT_DETAIL_FAIL,
   GET_PROJECT_DETAIL_SUCCESS,
   CREATE_PROJECT_SUCCESS,
+  GET_FILE_DETAILS_SUCCESS
 } from "./actionTypes"
 import { API } from "config/api"
 import { axiosPost, axiosGet } from "services/apiServices"
@@ -72,6 +73,22 @@ export const createProject = project => {
 }
 
 
+export const getProjectFiles = projectId =>{
+  return async dispatch=>{
+    axiosGet(API.PROJECT_FILES_FETCH+"/"+projectId)
+    .then((res)=>{
+      if(res.status===200){
+        dispatch({
+          type:GET_FILE_DETAILS_SUCCESS,
+          payload:res.data
+        })
+      }
+
+    }).catch((err)=>{console.log(err)})
+  }
+}
+
+
 
 export const getProjectsSuccess = projects => ({
   type: GET_PROJECTS_SUCCESS,
@@ -97,3 +114,9 @@ export const getProjectDetailFail = error => ({
   type: GET_PROJECT_DETAIL_FAIL,
   payload: error,
 })
+
+export const getFileDetailsSuccess= projectId => ({
+  type:GET_FILE_DETAILS_SUCCESS,
+  projectId
+})
+

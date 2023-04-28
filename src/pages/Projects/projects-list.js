@@ -15,6 +15,7 @@ import {
   Table,
   UncontrolledDropdown,
   UncontrolledTooltip,
+  Button
 } from "reactstrap"
 
 //Import Breadcrumb
@@ -63,7 +64,9 @@ const ProjectsList = props => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr><td>Hello</td></tr>
+                      <tr><td><Link to="file-details/VPKW00195_1920_029" className="dropdown-item">
+                            <Button>File Details</Button>
+                          </Link></td></tr>
                       {/* {map(projectList, (project, index) => (
                         <tr key={index}>
                           <td>

@@ -3,6 +3,7 @@ const proxyURL = "http://192.168.0.106:8080"
 const gatewayURL = "http://192.168.0.106:9876"
 const proxyPath = "/api"
 const erpPath = "http://nerps.knowledgew.com:4500/api"
+const localURL = "http://127.0.0.1:3000/api"
 
 export const API = {
   // MEDIA UPLOAD
@@ -20,5 +21,6 @@ export const API = {
   //projects
   PROJECTS_FETCH: `${proxyURL}/projects`,
   LANGUAGES_FETCH:`${erpPath}/getLanguages`,
-  SERVICES_FETCH:`${erpPath}/getServices`
+  SERVICES_FETCH:`${erpPath}/getServices`,
+  PROJECT_FILES_FETCH:`${localURL}/ftbtGetAssignedFiles`
 }

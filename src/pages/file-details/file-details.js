@@ -1,19 +1,20 @@
 import React, { Component, useState, useEffect } from "react"
 import { Row, Col, CardBody, Card, Alert, Container, Table, Button } from "reactstrap"
-import { Link } from "react-router-dom"
+import { Link,useParams } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import {getProjectFiles} from 'store/actions'
 
 const fileDetails = props => {
 
-  const [services,setServices] = useState([])
-  const onClickFunction = (arr) =>{
-    setServices(prevState=>({
-      arr
-    }))
-  }
+  const params = useParams()
+  const projectId = params.projectId
+  const dispatch = useDispatch()
+  const projectFiles = useSelector(state=>state.projects.fileDetails)
+  console.log(projectFiles)
 
   useEffect(()=>{
-    console.log(services)
-  },[onClickFunction])
+    dispatch(getProjectFiles(projectId))
+  },[])
 
   return (
     <>
@@ -21,34 +22,27 @@ const fileDetails = props => {
         <Container>
           <Row>
             <Col md={12}>
-              <Table striped>
+              <Table className="text-center">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
+                    <th>Id</th>
+                    <th>Status</th>
+                    <th>Source Language</th>
+                    <th>Target Language</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td><Button onClick={()=>{onClickFunction(["hello"])}}>Click</Button></td>
-                  </tr>
+                  {projectFiles && projectFiles.map((el,ind)=>{
+                    return(
+                      <tr key={el._id}>
+                        <td>{el.fileId}</td>
+                        {el.status==="Completed" && <td style={{color:"green"}}>{el.status}</td>}
+                        {el.status!=="Completed" && <td style={{color:"blue"}}>{el.status}</td>}
+                        <td>{el.sourceLanguage}</td>
+                        <td>{el.targetLanguage}</td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </Table>
             </Col>
