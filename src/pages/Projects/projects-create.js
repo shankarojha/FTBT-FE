@@ -377,7 +377,7 @@ const ProjectsCreate = props => {
                       </tr>
                     </thead>
                     <tbody className="serviceTable">
-                      {serviceFiles.map((el)=>(<tr key={el.serviceKey}>
+                      {openModal && serviceFiles.map((el)=>(<tr key={el.serviceKey}>
                         <td>{el.orgFilename}</td>
                         <td>{el.sourceLanguage}</td>
                         <td>{el.targetLanguage}</td>
@@ -470,7 +470,7 @@ const ProjectsCreate = props => {
                           removeSelectedFiles={file =>
                             removeSelectedImages(file)
                           }
-                          multiple={true}
+                          multiple={false}
                           required
                         />}
                         {isUploading && <div className="text-center m-4 d-flex justify-content-center align-items-center">

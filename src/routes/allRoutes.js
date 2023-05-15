@@ -165,6 +165,7 @@ import fileDetails from "pages/file-details/file-details"
 import ContactsGrid from "../pages/Contacts/contacts-grid"
 import ContactsList from "../pages/Contacts/ContactList/contacts-list"
 import ContactsProfile from "../pages/Contacts/ContactsProfile/contacts-profile"
+import statusDetails from "pages/Status-Details/status-details"
 
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -227,6 +228,7 @@ const userRoutes = [
   { path: "/projects-overview/:id", component: ProjectsOverview },
   { path: "/projects-create", component: ProjectsCreate },
   { path:"/file-details/:projectId",component:fileDetails},
+  { path:"/status-details/:fileId", component:statusDetails},
 
   //Blog
   { path: "/blog-list", component: BlogList },

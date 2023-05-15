@@ -1,8 +1,10 @@
 import React, { Component, useState, useEffect } from "react"
-import { Row, Col, CardBody, Card, Alert, Container, Table, Button } from "reactstrap"
+import { Row, Col, CardBody, Card, Alert, Container, Table, Button, Breadcrumb } from "reactstrap"
 import { Link,useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import {getProjectFiles} from 'store/actions'
+import Breadcrumbs from "components/Common/Breadcrumb"
+
 
 const fileDetails = props => {
 
@@ -19,7 +21,8 @@ const fileDetails = props => {
   return (
     <>
       <div className="page-content">
-        <Container>
+        <Container fluid>
+        <Breadcrumbs title="Projects" breadcrumbItem="File Details" />
           <Row>
             <Col md={12}>
               <Table className="text-center">
