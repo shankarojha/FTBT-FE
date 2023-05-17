@@ -2,8 +2,8 @@ import React from "react"
 import CarouselPage from "./CarouselPage"
 
 // import images
-import logodark from "../../assets/images/logo-dark.png"
-import logolight from "../../assets/images/logo-light.png"
+import logodark from "../../assets/images/KW_Logo_Transparency.png"
+import logolight from "../../assets/images/KW_Logo_Transparency.png"
 import { Col, Container, Row } from "reactstrap"
 
 const EmailVerification2 = () => {

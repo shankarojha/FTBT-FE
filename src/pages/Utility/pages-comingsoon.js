@@ -6,7 +6,7 @@ import { Container, Row, Col } from "reactstrap"
 import Countdown from "react-countdown"
 
 //Import Images
-import logo from "../../assets/images/logo-dark.png"
+import logo from "../../assets/images/KW_Logo_Transparency.png"
 import maintanence from "../../assets/images/maintenance.png"
 
 const PagesComingsoon = () => {

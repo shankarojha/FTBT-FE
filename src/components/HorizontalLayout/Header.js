@@ -16,10 +16,11 @@ import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDr
 import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu"
 
 import megamenuImg from "../../assets/images/megamenu-img.png"
-import logo from "../../assets/images/logo-sm-light.png"
-import logoLight from "../../assets/images/logo-light.png"
-import logoLightSvg from "../../assets/images/logo-light.svg"
-import logoDark from "../../assets/images/logo-dark.png"
+// import logo from "../../assets/images/logo-sm-light.png"
+import logo from "../../assets/images/KW_Logo_Transparency.png"
+// import logo from "../../assets/images/KW_Logo_Transparency.png"
+// import logo from "../../assets/images/logo-light.svg"
+// import logo from "../../assets/images/KW_Logo_Transparency.png"
 
 // import images
 import github from "../../assets/images/brands/github.png"
@@ -70,17 +71,17 @@ const Header = props => {
           <div className="d-flex">
             <div className="navbar-brand-box">
               <Link to="/" className="logo logo-dark">
-                <span className="logo-sm">
+                <span className="logo-sm">hello
                   <img src={logo} alt="" height="22" />
                 </span>
                 <span className="logo-lg">
-                  <img src={logoDark} alt="" height="17" />
+                  <img src={logo} alt="" height="17" />
                 </span>
               </Link>
 
               <Link to="/" className="logo logo-light">
                 <span className="logo-sm">
-                  <img src={logoLightSvg} alt="" height="22" />
+                  <img src={logo} alt="" height="22" />
                 </span>
                 <span className="logo-lg">
                   <img src={logoLight} alt="" height="19" />

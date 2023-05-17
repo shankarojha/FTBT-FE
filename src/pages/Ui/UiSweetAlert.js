@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Row, Col, Card, CardBody, Button, Container } from "reactstrap"
-import logolight from "../../assets/images/logo-light.png"
+import logolight from "../../assets/images/KW_Logo_Transparency.png"
 
 //SweetAlert
 import SweetAlert from "react-bootstrap-sweetalert"

@@ -3,8 +3,8 @@ import { Link } from "react-router-dom"
 import { Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap"
 
 // import ReactDOM from 'react-dom';
-import logodark from "../../assets/images/logo-dark.png"
-import logolight from "../../assets/images/logo-light.png"
+import logodark from "../../assets/images/KW_Logo_Transparency.png"
+import logolight from "../../assets/images/KW_Logo_Transparency.png"
 import CarouselPage from "./CarouselPage"
 const Recoverpw2 = () => {
   return (

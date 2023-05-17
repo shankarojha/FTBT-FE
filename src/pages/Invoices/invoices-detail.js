@@ -7,7 +7,7 @@ import { isEmpty, map } from "lodash"
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 
 //Import Image
-import logo from "../../assets/images/logo-dark.png"
+import logo from "../../assets/images/KW_Logo_Transparency.png"
 import PropTypes from "prop-types"
 import { getInvoiceDetail } from "../../store/invoices/actions"
 import { connect } from "react-redux"

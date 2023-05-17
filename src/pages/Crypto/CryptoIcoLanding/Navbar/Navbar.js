@@ -14,8 +14,8 @@ import { Link } from "react-router-dom"
 import ScrollspyNav from "./scrollSpy"
 
 //Import Images
-import logodark from "../../../../assets/images/logo-dark.png"
-import logolight from "../../../../assets/images/logo-light.png"
+import logodark from "../../../../assets/images/KW_Logo_Transparency.png"
+import logolight from "../../../../assets/images/KW_Logo_Transparency.png"
 
 const navItems = [
   { id: 1, idnm: "home", navheading: "Home" },

@@ -5,8 +5,8 @@ import CarouselPage from "./CarouselPage"
 import AuthCode from "react-auth-code-input"
 
 // import images
-import logodark from "../../assets/images/logo-dark.png"
-import logolight from "../../assets/images/logo-light.png"
+import logodark from "../../assets/images/KW_Logo_Transparency.png"
+import logolight from "../../assets/images/KW_Logo_Transparency.png"
 import { Col, Form, FormGroup, Label, Row } from "reactstrap"
 import { Link } from "react-router-dom"
 
