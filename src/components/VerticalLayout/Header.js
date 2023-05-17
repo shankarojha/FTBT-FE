@@ -97,10 +97,10 @@ const Header = props => {
 
               <Link to="/" className="logo logo-light">
                 <span className="logo-sm">
-                  <img src={logo} alt="" height="22" />
+                  <img src={logo} alt="" height="25" />
                 </span>
                 <span className="logo-lg">
-                  <img src={logo} alt="" height="19" />
+                  <img src={logo} alt="" height="50" />
                 </span>
               </Link>
             </div>
@@ -127,7 +127,7 @@ const Header = props => {
               </div>
             </form>
 
-            <Dropdown
+            {/* <Dropdown
               className="dropdown-mega d-none d-lg-block ml-2"
               isOpen={megaMenu}
               toggle={() => {
@@ -275,7 +275,7 @@ const Header = props => {
                   </Col>
                 </Row>
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown> */}
           </div>
           <div className="d-flex">
             <div className="dropdown d-inline-block d-lg-none ml-2">
@@ -317,9 +317,9 @@ const Header = props => {
               </div>
             </div>
 
-            <LanguageDropdown />
+            {/* <LanguageDropdown /> */}
 
-            <Dropdown
+            {/* <Dropdown
               className="d-none d-lg-inline-block ml-1"
               isOpen={socialDrp}
               toggle={() => {
@@ -377,7 +377,7 @@ const Header = props => {
                   </Row>
                 </div>
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown> */}
 
             <div className="dropdown d-none d-lg-inline-block ml-1">
               <button
@@ -392,10 +392,10 @@ const Header = props => {
               </button>
             </div>
 
-            <NotificationDropdown />
+            {/* <NotificationDropdown /> */}
             <ProfileMenu />
 
-            <div
+            {/* <div
               onClick={() => {
                 props.showRightSidebarAction(!props.showRightSidebar)
               }}
@@ -407,7 +407,7 @@ const Header = props => {
               >
                 <i className="bx bx-cog bx-spin"/>
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </header>
