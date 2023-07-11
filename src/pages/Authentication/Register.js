@@ -25,7 +25,7 @@ const Register = props => {
   let signupResult = useSelector(state=> state.Account.user)
 
   const handleValidSubmit = (event, values) => {
-    console.log(values)
+    //console.log(values)
     dispatch(registerActions.registerUser(values))
   }
 

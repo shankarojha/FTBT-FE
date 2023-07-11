@@ -4,7 +4,8 @@ import {
   GET_PROJECTS_SUCCESS,
   GET_PROJECT_DETAIL_FAIL,
   GET_PROJECT_DETAIL_SUCCESS,
-  GET_FILE_DETAILS_SUCCESS
+  GET_FILE_DETAILS_SUCCESS,
+  GET_FILTERED_DATA_SUCCESS
 } from "./actionTypes"
 
 const INIT_STATE = {
@@ -12,6 +13,7 @@ const INIT_STATE = {
   projectDetail: {},
   error: {},
   projectStatus: {},
+  filteredData: []
 }
 
 const projects = (state = INIT_STATE, action) => {
@@ -45,10 +47,16 @@ const projects = (state = INIT_STATE, action) => {
         projectStatus: action.payload,
       }
 
-    case GET_FILE_DETAILS_SUCCESS:
-      return{
+    // case GET_FILE_DETAILS_SUCCESS:
+    //   return{
+    //     ...state,
+    //     fileDetails:action.payload
+    //   }
+
+      case GET_FILTERED_DATA_SUCCESS:
+      return {
         ...state,
-        fileDetails:action.payload
+        filteredData: action.payload,
       }
 
     default:

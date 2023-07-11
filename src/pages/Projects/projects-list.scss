@@ -1,0 +1,23 @@
+.customModal {
+    text-align: center;
+    width:500px;
+}
+
+.customModal tr{
+    width:500px;
+    
+    overflow-wrap: break-word;
+}
+.table {
+    overflow-wrap: break-word;
+
+}
+td.modal-content {
+    width: 200%;
+    
+}
+th {
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+}

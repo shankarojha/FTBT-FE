@@ -82,25 +82,25 @@ const ProjectsCreate = props => {
   };
 
   const handleonChangeValues = key => event => {
-    console.log("key",[key])
+    //console.log("key",[key])
 
     if (key.includes("sel")) {
-      console.log("event:",event)
+      //console.log("event:",event)
       setonChangeValues(prevState => ({
         ...prevState,
         [key]: event,
       }))
-      console.log(onChangeValues)
+      //console.log(onChangeValues)
     } else {
-      console.log([key])
-      console.log(event.target.checked)
+      //console.log([key])
+      //console.log(event.target.checked)
       setonChangeValues(prevState => ({
         ...prevState,
         [key]: event.target.value,
       }))
     }
     if (key.includes("Checked")) {
-      console.log("here")
+      //console.log("here")
       setonChangeValues(prevState => ({
         ...prevState,
         [key]: event.target.checked,
@@ -109,7 +109,7 @@ const ProjectsCreate = props => {
   }
 
   const removeFromService = (data) =>{
-    console.log("data:", data)
+    //console.log("data:", data)
     
     setServiceFiles(prevState=> prevState.filter(item=>item.serviceKey!==data.serviceKey))
   }
@@ -132,13 +132,13 @@ const ProjectsCreate = props => {
   /**Testing */
 
   useEffect(()=>{
-    console.log(serviceFiles)
+    //console.log(serviceFiles)
   },[serviceFiles,removeFromService])
 
   /**Ends */
 
   const removeSelectedImages = file => {
-    console.log("data>removeSelectedImages", file)
+    //console.log("data>removeSelectedImages", file)
     const files = selectedImages
     const newFiles = files.filter(item => {
       return item.id !== file.id
@@ -152,7 +152,7 @@ const ProjectsCreate = props => {
   }
 
   useEffect(() => {
-    console.log(projectCreated)
+    //console.log(projectCreated)
     if (projectCreated.message) {
       window.location.reload()
     }
@@ -176,7 +176,7 @@ const ProjectsCreate = props => {
       })
       setServiceList(uniqueServices)
     }catch(error){
-      console.log(error)
+      //console.log(error)
     }
   }
 
@@ -187,17 +187,17 @@ const ProjectsCreate = props => {
         return {value:el.languageName,label:el.languageName}
       })
       await setLanguageList(languages)
-      console.log(languageList)
+      //console.log(languageList)
     }catch(error){
-      console.log(error)
+      //console.log(error)
     }finally{
-      console.log("here")
-      console.log(languageList)
+      //console.log("here")
+      //console.log(languageList)
     }
   }
 
   const handleAcceptedImages = (images, res) => {
-    console.log("res handle:", res)      
+    //console.log("res handle:", res)      
 
       setFileName(res.data.filename)
     
@@ -226,7 +226,7 @@ const ProjectsCreate = props => {
       )
     } else {
       setIsUploading(true)
-      console.log(onChangeValues)
+      //console.log(onChangeValues)
       dispatch(
         addproductAction.commonMediaUpload(
           images,
@@ -241,7 +241,7 @@ const ProjectsCreate = props => {
   }
   const handleFormSubmit = e => {
     e.preventDefault()
-    console.log(onChangeValues)
+    //console.log(onChangeValues)
     if (onChangeValues) {
       let filedata = []
 
@@ -463,7 +463,7 @@ const ProjectsCreate = props => {
                       <Modal returnFocusAfterClose={focusAfterClose} isOpen={openModal}>
                         <ModalBody>
                         {!isUploading && openModal && <FileUpload
-                          onChange={console.log("Called On Change")}
+                          
                           selectedFiles={selectedImages}
                           //fileType={[".doc", ".docx"]}
                           uploadFiles={images => uploadImages(images)}

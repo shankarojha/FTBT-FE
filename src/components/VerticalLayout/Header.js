@@ -36,7 +36,13 @@ import {
   showRightSidebarAction,
   toggleLeftmenu,
   changeSidebarType,
+  ftbtgetFilteredData
 } from "../../store/actions"
+
+import { useSelector, useDispatch } from "react-redux"
+import { ftbtgetProjects } from "../../store/actions"
+import { useEffect } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 const Header = props => {
   const [search, setsearch] = useState(false)
@@ -80,6 +86,58 @@ const Header = props => {
       props.changeSidebarType("default", isMobile)
     }
   }
+
+   //backend data
+   const ftbtprojects = useSelector(state => state.projects)
+   const ftbtFilteredData = useSelector(state => state.filteredData)
+   const ftbtFileDetails = useSelector(state => state.projects)
+   const dispatch = useDispatch()
+   // useEffect(() => {
+   //   dispatch(ftbtgetFilteredData())
+   // }, [filteredData])
+   //console.log(ftbtFilteredData)
+   //console.log(ftbtprojects)
+   //search
+   const loc=useLocation()
+   const handleFilter = event => {
+     const searchWord = event.target.value
+     //console.log(loc.pathname)
+     if(loc.pathname=="/projects-list")
+     {
+       const newFilter = ftbtprojects.projects.filter(value => {
+         return (
+           value.clientName
+             .toLowerCase()
+             .includes(searchWord.toString().toLowerCase()) ||
+           value.quotationStatus
+             .toLowerCase()
+             .includes(searchWord.toString().toLowerCase()) ||
+           value.quotationId
+             .includes(searchWord.toString())
+         )
+       })
+       dispatch(ftbtgetFilteredData(newFilter))
+     }
+     else if(loc.pathname.substring(0,13)=="/file-details")
+     {
+       const newFilter = ftbtFileDetails.projects.filter(value => {
+         return (
+           value.fileId
+             .toLowerCase()
+             .includes(searchWord.toString().toLowerCase()) ||
+           value.processName
+             .toLowerCase()
+             .includes(searchWord.toString().toLowerCase()) 
+           // value.quotationId
+           //   .includes(searchWord.toString())
+         )
+       })
+       dispatch(ftbtgetFilteredData(newFilter))
+     }
+   }
+   //console.log(ftbtFilteredData)
+   //console.log(ftbtprojects)
+   
   return (
     <React.Fragment>
       <header id="page-topbar">
@@ -122,6 +180,7 @@ const Header = props => {
                   type="text"
                   className="form-control"
                   placeholder={props.t("Search") + "..."}
+                  onChange={handleFilter}
                 />
                 <span className="bx bx-search-alt"/>
               </div>

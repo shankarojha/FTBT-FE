@@ -103,7 +103,7 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "set PORT=4200 && react-scripts start",
+    "start": "set PORT=4500 && react-scripts start",
     "build": "react-scripts build ",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,json,md,html,css,less,scss}\"",

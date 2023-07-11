@@ -227,7 +227,7 @@ const userRoutes = [
   { path: "/projects-overview", component: ProjectsOverview },
   { path: "/projects-overview/:id", component: ProjectsOverview },
   { path: "/projects-create", component: ProjectsCreate },
-  { path:"/file-details/:projectId",component:fileDetails},
+  { path:"/file-details/:quotationId",component:fileDetails},
   { path:"/status-details/:fileId", component:statusDetails},
 
   //Blog

@@ -6,7 +6,7 @@ import {
   GET_PROJECT_DETAIL_FAIL,
   GET_PROJECT_DETAIL_SUCCESS,
   CREATE_PROJECT_SUCCESS,
-  GET_FILE_DETAILS_SUCCESS
+  GET_FILTERED_DATA_SUCCESS
 } from "./actionTypes"
 import { API } from "config/api"
 import { axiosPost, axiosGet } from "services/apiServices"
@@ -14,14 +14,39 @@ import * as commonAction from "store/actions"
 //import { useDispatch } from "react-redux"
 
 export const getProjects = () => {
+
   return async dispatch => {
-    axiosGet(API.PROJECTS_FETCH).then(res => {
+    axiosGet(API.FTBT_PROJECTS_FETCH).then(res => {
+      if(res){
+        if (res.status === 200) {
+          dispatch({
+            type: GET_PROJECTS_SUCCESS,
+            payload: res.data,
+          })
+        }
+      }
+    })
+  }
+}
+
+export const ftbtgetFileDetails = quotationId => {
+  return async dispatch => {
+    axiosGet(`${API.FTBT_FILE_DETAILS}/${quotationId}`).then(res => {
       if (res.status === 200) {
         dispatch({
           type: GET_PROJECTS_SUCCESS,
           payload: res.data,
         })
       }
+    })
+  }
+}
+export const ftbtgetFilteredData = data => {
+  //console.log(data)
+  return async dispatch => {
+    dispatch({
+      type: GET_FILTERED_DATA_SUCCESS,
+      payload: data,
     })
   }
 }
@@ -61,7 +86,7 @@ export const createProject = project => {
         }
       })
       .catch(err => {
-        console.log(err)
+        //console.log(err)
         dispatch(
           commonAction.sendSnackAlert(
             "error",
@@ -69,22 +94,6 @@ export const createProject = project => {
           )
         )
       })
-  }
-}
-
-
-export const getProjectFiles = projectId =>{
-  return async dispatch=>{
-    axiosGet(API.PROJECT_FILES_FETCH+"/"+projectId)
-    .then((res)=>{
-      if(res.status===200){
-        dispatch({
-          type:GET_FILE_DETAILS_SUCCESS,
-          payload:res.data
-        })
-      }
-
-    }).catch((err)=>{console.log(err)})
   }
 }
 
@@ -113,10 +122,5 @@ export const getProjectDetailSuccess = projectDetails => ({
 export const getProjectDetailFail = error => ({
   type: GET_PROJECT_DETAIL_FAIL,
   payload: error,
-})
-
-export const getFileDetailsSuccess= projectId => ({
-  type:GET_FILE_DETAILS_SUCCESS,
-  projectId
 })
 

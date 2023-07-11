@@ -116,7 +116,7 @@ const EcommerceProducts = props => {
   */
   const onChangeRating = value => {
     setProductList(productsData.filter(product => product.rating >= value))
-    console.log("value", value)
+    //console.log("value", value)
   }
 
   const onSelectRating = value => {

@@ -149,16 +149,16 @@ export const mediaUpload = async (url, media, data, token) => {
   formData.append("proId", data.proId)
 
   // for (var key of formData.entries()) {
-  //   console.log("data>formdata", key[0] + ", " + JSON.stringify(key[1]))
+  //   //console.log("data>formdata", key[0] + ", " + JSON.stringify(key[1]))
   // }
 
   let result = await axios.post(url, formData, { headers, 
     // onUploadProgress:(data)=>{
-    //   console.log("data from coreApiServices:",data)
+    //   //console.log("data from coreApiServices:",data)
     //   store.dispatch(data)
     // }
    })
-   console.log("result:",result)
+   //console.log("result:",result)
   // if (result.status_code && result.status_code === 403) {
   //   store.dispatch(authAction.sessionLogout());
   // }

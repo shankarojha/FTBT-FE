@@ -22,7 +22,7 @@ function FileUploadB(props) {
       <Dropzone
         multiple={multiple}
         onDrop={acceptedFiles => {
-          console.log("acceptedFiles:", acceptedFiles)
+          //console.log("acceptedFiles:", acceptedFiles)
           uploadFiles(acceptedFiles)
         }}
         accept={fileType}

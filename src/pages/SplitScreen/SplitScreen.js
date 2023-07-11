@@ -15,12 +15,12 @@ const SplitScreen = props => {
   const [splitEditorState, setSplitEditorState] = useState()
 
   const onCheck = () => {
-    console.log(editorState.getCurrentContent().getPlainText("\u0001"))
+    //console.log(editorState.getCurrentContent().getPlainText("\u0001"))
   }
 
   const[jsonData, setJsonData] = useState([])
   const readExcelFile=async (e)=>{
-    console.log("e: ", e)
+    //console.log("e: ", e)
     const file = e.target.files[0];
     const data = await file.arrayBuffer();
     const workbook = XLSX.read(data);
@@ -33,7 +33,7 @@ const SplitScreen = props => {
 
     //console.log(e.target.files[0]);
     //console.log(workbook);
-    console.log("jsonData : ", jsonData);
+    //console.log("jsonData : ", jsonData);
   }
 
   
@@ -47,7 +47,7 @@ const SplitScreen = props => {
       initEditorData=initEditorData+`<tr ><td style="pointer-events: none;">${item[1]}</td><td><p></p></td></tr>` 
     })
     initEditorData+=`</tbody></table>`
-    console.log("initEditorData :",initEditorData)
+    //console.log("initEditorData :",initEditorData)
     setEditorData(initEditorData)
   },[jsonData])
 
@@ -118,18 +118,18 @@ const SplitScreen = props => {
                     }}
                     data={editorData}
                     onReady={editor => {
-                        console.log("editpr : ", editor)
+                        //console.log("editpr : ", editor)
                       }}
                     
                     onChange={ ( event, editor ) => {
                         const data = editor.getData();
-                        console.log(  "data :", data );
+                        //console.log(  "data :", data );
                     } }
                     onBlur={ ( event, editor ) => {
-                        console.log( 'Blur.', editor );
+                        //console.log( 'Blur.', editor );
                     } }
                     onFocus={ ( event, editor ) => {
-                        console.log( 'Focus.', editor );
+                        //console.log( 'Focus.', editor );
                     } }
                 />
             </Col>

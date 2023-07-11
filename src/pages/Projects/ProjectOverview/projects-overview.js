@@ -27,10 +27,10 @@ const ProjectsOverview = props => {
 
   const projectDetail = useSelector(state => state.projects.projectDetail[0])
 
-  console.log(projectDetail)
+  //console.log(projectDetail)
 
   useEffect(() => {
-    console.log(params)
+    //console.log(params)
     if (params && params.id) {
       dispatch(getProjectById(params.id))
     }

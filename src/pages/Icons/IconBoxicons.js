@@ -42,7 +42,7 @@ const IconBoxicons = props => {
             "</div>"
           break
         default:
-          console.log("yes")
+          //console.log("yes")
       }
     })
 
